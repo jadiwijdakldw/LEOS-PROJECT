@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LEOS PROJECT NEWS — Зеркала</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700;900&family=JetBrains+Mono:wght@300;400;500&display=swap');
+:root{--bg:#050508;--surface:#0d0d14;--surface2:#13131e;--border:#1e1e30;--accent:#7c3aed;--accent2:#a855f7;--accent3:#06b6d4;--text:#e2e2f0;--text-dim:#6b6b8a;--text-muted:#3a3a55}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'JetBrains Mono',monospace;min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(124,58,237,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(124,58,237,.03) 1px,transparent 1px);background-size:60px 60px;animation:gridMove 20s linear infinite;pointer-events:none;z-index:0}
+@keyframes gridMove{0%{background-position:0 0}100%{background-position:60px 60px}}
+.scanline{position:fixed;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,rgba(124,58,237,.6),rgba(6,182,212,.6),transparent);animation:scan 5s linear infinite;pointer-events:none;z-index:200}
+@keyframes scan{0%{top:-2px;opacity:0}5%{opacity:1}95%{opacity:1}100%{top:100vh;opacity:0}}
+.container{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 24px}
+
+/* ── HEADER ── */
+header{padding:60px 0 40px;text-align:center;position:relative}
+.glow-blob{position:absolute;top:-40px;left:50%;transform:translateX(-50%);width:500px;height:300px;background:radial-gradient(ellipse,rgba(124,58,237,.12) 0%,transparent 70%);pointer-events:none}
+.status-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.25);border-radius:100px;padding:6px 16px;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent2);margin-bottom:32px}
+.status-dot{width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px #22c55e;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+h1{font-family:'Unbounded',sans-serif;font-size:clamp(28px,6vw,60px);font-weight:900;line-height:1.05;letter-spacing:-.03em;background:linear-gradient(135deg,#fff 0%,var(--accent2) 50%,var(--accent3) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:16px}
+.subtitle{font-size:13px;color:var(--text-dim);letter-spacing:.05em;line-height:1.7;max-width:480px;margin:0 auto 48px}
+
+/* ── SECTIONS & CARDS ── */
+.section{margin-bottom:40px;animation:fadeUp .6s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.section-label{display:flex;align-items:center;gap:12px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px}
+.section-label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px 26px;margin-bottom:10px;display:flex;align-items:center;gap:18px;text-decoration:none;color:var(--text);position:relative;overflow:hidden;transition:border-color .25s,transform .2s,box-shadow .25s;flex-wrap:wrap}
+.card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(124,58,237,.05) 0%,transparent 60%);opacity:0;transition:opacity .25s}
+.card:hover{border-color:rgba(124,58,237,.4);transform:translateY(-2px);box-shadow:0 8px 40px rgba(124,58,237,.15)}
+.card:hover::before{opacity:1}
+.card-featured{background:linear-gradient(135deg,var(--surface) 0%,#0f0a1e 100%);border-color:rgba(124,58,237,.3);box-shadow:0 0 40px rgba(124,58,237,.08)}
+.card-num{font-size:11px;color:var(--text-muted);min-width:24px}
+.card-icon{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;position:relative;z-index:1}
+.icon-tg{background:linear-gradient(135deg,#0088cc22,#0088cc44);border:1px solid #0088cc33}
+.icon-mirror{background:linear-gradient(135deg,#06b6d422,#06b6d444);border:1px solid #06b6d433}
+.icon-bot{background:linear-gradient(135deg,#7c3aed22,#a855f744);border:1px solid #7c3aed33}
+.card-content{flex:1;min-width:0;position:relative;z-index:1}
+.card-title{font-family:'Unbounded',sans-serif;font-size:13px;font-weight:700;margin-bottom:3px;color:#fff}
+.card-url{font-size:11px;color:var(--text-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:400px}
+.card-arrow{font-size:18px;color:var(--text-muted);transition:color .2s,transform .2s;position:relative;z-index:1;flex-shrink:0;text-decoration:none}
+.card:hover .card-arrow{color:var(--accent2);transform:translateX(4px)}
+.copy-btn{background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.2);color:var(--accent2);border-radius:8px;padding:6px 12px;font-size:10px;font-family:'JetBrains Mono',monospace;cursor:pointer;letter-spacing:.05em;transition:all .2s;flex-shrink:0;position:relative;z-index:1}
+.copy-btn:hover{background:rgba(124,58,237,.2)}
+.copy-btn.copied{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.3);color:#22c55e}
+.info-box{background:rgba(6,182,212,.04);border:1px solid rgba(6,182,212,.15);border-radius:12px;padding:16px 22px;font-size:12px;color:var(--text-dim);line-height:1.7;display:flex;gap:14px;align-items:flex-start;margin-bottom:48px}
+.info-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+footer{border-top:1px solid var(--border);padding:28px 0 44px;text-align:center;font-size:11px;color:var(--text-muted);letter-spacing:.08em}
+footer span{color:var(--accent2)}
+
+/* ════════════════════════════
+   LOGIN PAGE
+════════════════════════════ */
+#login-page{position:fixed;inset:0;z-index:1000;background:var(--bg);display:none;align-items:center;justify-content:center;padding:20px}
+#login-page.show{display:flex}
+.login-box{background:var(--surface2);border:1px solid rgba(124,58,237,.3);border-radius:20px;padding:40px;width:100%;max-width:400px;box-shadow:0 0 80px rgba(124,58,237,.15);text-align:center}
+.login-logo{font-family:'Unbounded',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--accent2);margin-bottom:8px;text-transform:uppercase}
+.login-box h2{font-family:'Unbounded',sans-serif;font-size:22px;font-weight:900;background:linear-gradient(135deg,#fff,var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+.login-box p{font-size:11px;color:var(--text-muted);margin-bottom:32px;letter-spacing:.05em}
+.login-field{margin-bottom:16px;text-align:left}
+.login-field label{display:block;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent2);margin-bottom:7px}
+.login-field input{width:100%;background:#090910;border:1px solid var(--border);border-radius:10px;padding:13px 16px;font-size:13px;font-family:'JetBrains Mono',monospace;color:var(--text);outline:none;transition:border-color .2s}
+.login-field input:focus{border-color:rgba(124,58,237,.5)}
+.login-btn{width:100%;margin-top:24px;background:linear-gradient(135deg,var(--accent),var(--accent3));border:none;border-radius:10px;padding:14px;color:#fff;font-family:'Unbounded',sans-serif;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:.05em;transition:opacity .2s}
+.login-btn:hover{opacity:.85}
+.login-error{font-size:11px;color:#f87171;margin-top:12px;min-height:16px;letter-spacing:.03em}
+
+/* ════════════════════════════
+   ADMIN PANEL
+════════════════════════════ */
+#admin-page{position:fixed;inset:0;z-index:999;background:var(--bg);display:none;overflow-y:auto}
+#admin-page.show{display:block}
+.admin-header{background:var(--surface2);border-bottom:1px solid var(--border);padding:18px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
+.admin-logo{font-family:'Unbounded',sans-serif;font-size:13px;font-weight:700;color:var(--accent2);letter-spacing:.08em}
+.admin-badge{font-size:10px;color:var(--text-muted);letter-spacing:.12em;text-transform:uppercase}
+.admin-logout{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:#f87171;border-radius:8px;padding:7px 16px;font-size:11px;font-family:'JetBrains Mono',monospace;cursor:pointer;letter-spacing:.05em;transition:all .2s}
+.admin-logout:hover{background:rgba(239,68,68,.2)}
+.admin-body{max-width:720px;margin:0 auto;padding:36px 24px 60px}
+.admin-body h2{font-family:'Unbounded',sans-serif;font-size:20px;font-weight:900;background:linear-gradient(90deg,#fff,var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px}
+.admin-body .hint{font-size:11px;color:var(--text-muted);margin-bottom:36px;letter-spacing:.03em}
+.a-section{background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:28px;margin-bottom:20px}
+.a-section h3{font-family:'Unbounded',sans-serif;font-size:12px;font-weight:700;color:var(--accent2);letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px}
+.field input,.field textarea{width:100%;background:#090910;border:1px solid var(--border);border-radius:10px;padding:11px 14px;font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--text);outline:none;transition:border-color .2s;resize:none}
+.field input:focus,.field textarea:focus{border-color:rgba(124,58,237,.5)}
+.entry{position:relative;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:16px 16px 12px;margin-bottom:10px}
+.entry label{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:5px;display:block}
+.entry input{margin-bottom:10px}
+.entry input:last-child{margin-bottom:0}
+.rm-btn{position:absolute;top:10px;right:10px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:#f87171;border-radius:6px;padding:3px 9px;font-size:10px;cursor:pointer;font-family:'JetBrains Mono',monospace}
+.rm-btn:hover{background:rgba(239,68,68,.2)}
+.add-btn{background:rgba(6,182,212,.07);border:1px dashed rgba(6,182,212,.25);border-radius:10px;padding:10px;font-size:11px;color:var(--accent3);font-family:'JetBrains Mono',monospace;cursor:pointer;width:100%;letter-spacing:.05em;transition:all .2s;margin-top:4px}
+.add-btn:hover{background:rgba(6,182,212,.13);border-color:rgba(6,182,212,.4)}
+.save-bar{position:sticky;bottom:0;background:linear-gradient(to top,var(--bg) 70%,transparent);padding:20px 0 0;text-align:center}
+.save-btn{background:linear-gradient(135deg,var(--accent),var(--accent3));border:none;border-radius:12px;padding:15px 48px;color:#fff;font-family:'Unbounded',sans-serif;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.05em;box-shadow:0 4px 30px rgba(124,58,237,.4);transition:opacity .2s,transform .2s}
+.save-btn:hover{opacity:.85;transform:scale(1.02)}
+.saved-toast{display:inline-block;background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);color:#22c55e;border-radius:10px;padding:10px 28px;font-size:13px;font-family:'JetBrains Mono',monospace;margin-top:12px;opacity:0;transition:opacity .3s}
+.saved-toast.show{opacity:1}
+</style>
+</head>
+<body>
+<div class="scanline"></div>
+
+<!-- ════ PUBLIC SITE ════ -->
+<div id="public-site">
+<div class="container">
+  <header>
+    <div class="glow-blob"></div>
+    <div class="status-badge"><span class="status-dot"></span>Все зеркала активны</div>
+    <h1 id="d-title">LEOS PROJECT NEWS</h1>
+    <p class="subtitle" id="d-subtitle">Актуальные ссылки на канал и все рабочие зеркала.<br>Обновляется при блокировках.</p>
+  </header>
+
+  <div class="section" style="animation-delay:.1s">
+    <div class="section-label">Telegram канал</div>
+    <a class="card card-featured" id="tg-main-card" href="https://t.me/+eCx7WRFEcHJjOThk" target="_blank" rel="noopener">
+      <span class="card-num">01</span>
+      <div class="card-icon icon-tg">📣</div>
+      <div class="card-content">
+        <div class="card-title" id="tg-main-name">LEOS PROJECT NEWS</div>
+        <div class="card-url" id="tg-main-url">t.me/+SM_QDhDVgJ1kNGRk — основной канал</div>
+      </div>
+      <span class="card-arrow">→</span>
+    </a>
+    <a class="card" id="tg-bot-card" href="#" target="_blank" rel="noopener" style="display:none">
+      <span class="card-num">🤖</span>
+      <div class="card-icon icon-bot">🤖</div>
+      <div class="card-content">
+        <div class="card-title" id="tg-bot-name">Telegram Бот</div>
+        <div class="card-url" id="tg-bot-url">ссылка не указана</div>
+      </div>
+      <span class="card-arrow">→</span>
+    </a>
+  </div>
+
+  <div class="section" style="animation-delay:.2s">
+    <div class="section-label">Рабочие зеркала</div>
+    <div id="mirrors-list"></div>
+  </div>
+
+  <div class="section" id="tg-backup-section" style="animation-delay:.3s;display:none">
+    <div class="section-label">Резервные Telegram каналы</div>
+    <div id="tg-backup-list"></div>
+  </div>
+
+  <div class="info-box">
+    <span class="info-icon">💡</span>
+    <span id="d-info">Если одно зеркало не работает — используй другое. Мы регулярно обновляем список. Подпишись на Telegram, чтобы первым узнавать о новых зеркалах.</span>
+  </div>
+
+  <footer><p>© 2025 · <span id="d-footer-name">LEOS PROJECT NEWS</span> · Сайт обновляется вручную</p></footer>
+</div>
+</div>
+
+<!-- ════ LOGIN PAGE ════ -->
+<div id="login-page">
+  <div class="login-box">
+    <div class="login-logo">⬡ LEOS PROJECT</div>
+    <h2>Admin Panel</h2>
+    <p>Введите данные для входа</p>
+    <div class="login-field">
+      <label>Логин</label>
+      <input type="text" id="login-input" placeholder="username" autocomplete="off">
+    </div>
+    <div class="login-field">
+      <label>Пароль</label>
+      <input type="password" id="pass-input" placeholder="••••••••" autocomplete="off">
+    </div>
+    <button class="login-btn" onclick="doLogin()">ВОЙТИ</button>
+    <div class="login-error" id="login-error"></div>
+  </div>
+</div>
+
+<!-- ════ ADMIN PAGE ════ -->
+<div id="admin-page">
+  <div class="admin-header">
+    <div>
+      <div class="admin-logo">⬡ LEOS PROJECT — Admin</div>
+      <div class="admin-badge">Управление сайтом зеркал</div>
+    </div>
+    <button class="admin-logout" onclick="doLogout()">Выйти</button>
+  </div>
+  <div class="admin-body">
+    <h2>Редактор сайта</h2>
+    <p class="hint">Изменения применяются сразу после нажатия «Сохранить»</p>
+
+    <div class="a-section">
+      <h3>Основное</h3>
+      <div class="field"><label>Название сайта</label><input type="text" id="a-title"></div>
+      <div class="field"><label>Подзаголовок</label><textarea id="a-subtitle" rows="2"></textarea></div>
+    </div>
+
+    <div class="a-section">
+      <h3>Основной Telegram канал</h3>
+      <div class="field"><label>Название канала</label><input type="text" id="a-tg-name"></div>
+      <div class="field"><label>Ссылка</label><input type="text" id="a-tg-url" placeholder="https://t.me/+..."></div>
+    </div>
+
+    <div class="a-section">
+      <h3>Telegram Бот 🤖</h3>
+      <div class="field"><label>Название бота</label><input type="text" id="a-bot-name" placeholder="Наш бот"></div>
+      <div class="field"><label>Ссылка на бота (пусто = скрыть)</label><input type="text" id="a-bot-url" placeholder="https://t.me/your_bot"></div>
+    </div>
+
+    <div class="a-section">
+      <h3>Зеркала (сайты)</h3>
+      <div id="a-mirrors"></div>
+      <button class="add-btn" onclick="addMirror()">+ Добавить зеркало</button>
+    </div>
+
+    <div class="a-section">
+      <h3>Резервные Telegram каналы</h3>
+      <div id="a-backups"></div>
+      <button class="add-btn" onclick="addBackup()">+ Добавить резервный ТГК</button>
+    </div>
+
+    <div class="a-section">
+      <h3>Текст подсказки</h3>
+      <div class="field"><textarea id="a-info" rows="3"></textarea></div>
+    </div>
+
+    <div class="save-bar">
+      <button class="save-btn" onclick="saveAll()">💾 СОХРАНИТЬ И ОПУБЛИКОВАТЬ</button>
+      <div><span class="saved-toast" id="saved-toast">✓ Изменения сохранены</span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── SUPABASE CONFIG ──
+const SB_URL = 'https://jgttwtqikpfjitachnui.supabase.co';
+const SB_KEY = 'sb_publishable_JNmBhrpHELfiI-YMAKO_BQ_vExd04Cx';
+
+// ── CREDENTIALS ──
+const CREDS = { login: 'leos', password: 'leaoowdoda' };
+
+// ── STATE ──
+const DEF = {
+  title:'LEOS PROJECT NEWS',
+  subtitle:'Актуальные ссылки на канал и все рабочие зеркала.\nОбновляется при блокировках.',
+  tgName:'LEOS PROJECT NEWS',
+  tgUrl:'https://t.me/+eCx7WRFEcHJjOThk',
+  botName:'Telegram Бот',
+  botUrl:'',
+  mirrors:[{label:'Зеркало #1',url:''},{label:'Зеркало #2',url:''},{label:'Зеркало #3',url:''}],
+  backups:[],
+  info:'Если одно зеркало не работает — используй другое. Мы регулярно обновляем список. Подпишись на Telegram, чтобы первым узнавать о новых зеркалах.'
+};
+let S = JSON.parse(JSON.stringify(DEF));
+
+// ── SUPABASE API ──
+async function sbGet(){
+  try{
+    const r = await fetch(SB_URL+'/rest/v1/site_data?id=eq.1&select=data',{
+      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}
+    });
+    if(!r.ok) return null;
+    const d = await r.json();
+    return (d && d[0]) ? d[0].data : null;
+  }catch(e){ return null; }
+}
+
+async function sbSet(data){
+  // Try UPSERT
+  const r = await fetch(SB_URL+'/rest/v1/site_data',{
+    method:'POST',
+    headers:{
+      'apikey':SB_KEY,
+      'Authorization':'Bearer '+SB_KEY,
+      'Content-Type':'application/json',
+      'Prefer':'resolution=merge-duplicates,return=minimal'
+    },
+    body: JSON.stringify({id:1, data})
+  });
+  return r.ok || r.status===201 || r.status===204;
+}
+
+async function initData(){
+  const remote = await sbGet();
+  if(remote) S = Object.assign({}, DEF, remote);
+  route();
+}
+
+// ── ROUTING ──
+function route(){
+  const path = location.hash;
+  if(path==='#/admin'){
+    const authed = sessionStorage.getItem('lp_auth')==='1';
+    if(authed){ showAdmin(); }
+    else { showLogin(); }
+  } else {
+    showPublic();
+  }
+}
+
+function showPublic(){
+  document.getElementById('public-site').style.display='block';
+  document.getElementById('login-page').classList.remove('show');
+  document.getElementById('admin-page').classList.remove('show');
+  render();
+}
+function showLogin(){
+  document.getElementById('public-site').style.display='none';
+  document.getElementById('login-page').classList.add('show');
+  document.getElementById('admin-page').classList.remove('show');
+  document.getElementById('login-error').textContent='';
+  document.getElementById('login-input').value='';
+  document.getElementById('pass-input').value='';
+  setTimeout(()=>document.getElementById('login-input').focus(),100);
+}
+function showAdmin(){
+  document.getElementById('public-site').style.display='none';
+  document.getElementById('login-page').classList.remove('show');
+  document.getElementById('admin-page').classList.add('show');
+  fillAdminFields();
+}
+
+// ── AUTH ──
+function doLogin(){
+  const l = document.getElementById('login-input').value.trim();
+  const p = document.getElementById('pass-input').value;
+  if(l===CREDS.login && p===CREDS.password){
+    sessionStorage.setItem('lp_auth','1');
+    showAdmin();
+  } else {
+    const err = document.getElementById('login-error');
+    err.textContent='Неверный логин или пароль';
+    document.getElementById('pass-input').value='';
+    setTimeout(()=>err.textContent='',3000);
+  }
+}
+function doLogout(){
+  sessionStorage.removeItem('lp_auth');
+  location.hash='';
+}
+
+// enter key on login
+document.addEventListener('keydown', e=>{
+  if(e.key==='Enter' && document.getElementById('login-page').classList.contains('show')) doLogin();
+});
+
+// ── PUBLIC RENDER ──
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+
+function render(){
+  document.getElementById('d-title').innerHTML=S.title.replace(/\n/g,'<br>');
+  document.getElementById('d-subtitle').innerHTML=S.subtitle.replace(/\n/g,'<br>');
+  document.getElementById('tg-main-name').textContent=S.tgName;
+  document.getElementById('tg-main-url').textContent=S.tgUrl.replace('https://','') + ' — основной канал';
+  document.getElementById('tg-main-card').href=S.tgUrl;
+  document.getElementById('d-info').textContent=S.info;
+  // Bot card
+  const botCard=document.getElementById('tg-bot-card');
+  const botUrl=S.botUrl||'';
+  if(botUrl){
+    botCard.style.display='flex';
+    botCard.href=botUrl;
+    document.getElementById('tg-bot-name').textContent=S.botName||'Telegram Бот';
+    document.getElementById('tg-bot-url').textContent=botUrl.replace('https://','') + ' — бот';
+  } else {
+    botCard.style.display='none';
+  }
+  document.getElementById('d-footer-name').textContent=S.title.replace(/\n/g,' ');
+  document.title=S.title.replace(/\n/g,' ') + ' — Зеркала';
+
+  const ml=document.getElementById('mirrors-list');
+  ml.innerHTML='';
+  S.mirrors.forEach((m,i)=>{
+    const url=m.url||'#';
+    const disp=m.url?m.url.replace('https://',''):'ссылка не указана';
+    const d=document.createElement('div');
+    d.className='card';d.style.cursor='default';
+    d.innerHTML=`<div class="card-icon icon-mirror" style="position:relative;z-index:1">🌐</div>
+      <div class="card-content" style="position:relative;z-index:1">
+        <div class="card-title">${esc(m.label)||'Зеркало #'+(i+1)}</div>
+        <div class="card-url">${esc(disp)}</div>
+      </div>
+      <button class="copy-btn" onclick="cp('${esc(m.url)}',this)">КОПИРОВАТЬ</button>
+      <a href="${esc(url)}" target="_blank" rel="noopener" class="card-arrow" style="text-decoration:none">→</a>`;
+    ml.appendChild(d);
+  });
+
+  const bl=document.getElementById('tg-backup-list');
+  const bs=document.getElementById('tg-backup-section');
+  const valid=S.backups.filter(b=>b.url);
+  bs.style.display=valid.length?'':'none';
+  bl.innerHTML='';
+  valid.forEach((b,i)=>{
+    const a=document.createElement('a');
+    a.className='card';a.href=b.url;a.target='_blank';a.rel='noopener';
+    a.innerHTML=`<span class="card-num">0${i+2}</span>
+      <div class="card-icon icon-tg">📣</div>
+      <div class="card-content">
+        <div class="card-title">${esc(b.name||b.url)}</div>
+        <div class="card-url">${esc(b.url.replace('https://',''))} — резервный канал</div>
+      </div><span class="card-arrow">→</span>`;
+    bl.appendChild(a);
+  });
+}
+
+function cp(text,btn){
+  if(!text||text==='#')return;
+  navigator.clipboard.writeText(text).then(()=>{
+    const o=btn.textContent;btn.textContent='✓ СКОПИРОВАНО';btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent=o;btn.classList.remove('copied')},2000);
+  });
+}
+
+// ── ADMIN FIELDS ──
+function fillAdminFields(){
+  document.getElementById('a-title').value=S.title;
+  document.getElementById('a-subtitle').value=S.subtitle;
+  document.getElementById('a-tg-name').value=S.tgName;
+  document.getElementById('a-tg-url').value=S.tgUrl;
+  document.getElementById('a-bot-name').value=S.botName||'';
+  document.getElementById('a-bot-url').value=S.botUrl||'';
+  document.getElementById('a-info').value=S.info;
+  buildMirrors(); buildBackups();
+}
+
+function buildMirrors(){
+  const c=document.getElementById('a-mirrors');c.innerHTML='';
+  S.mirrors.forEach((m,i)=>{
+    const d=document.createElement('div');d.className='entry';
+    d.innerHTML=`<button class="rm-btn" onclick="rmMirror(${i})">✕</button>
+      <label>Название</label><input type="text" value="${esc(m.label)}" oninput="S.mirrors[${i}].label=this.value" placeholder="Зеркало #${i+1}">
+      <label>Ссылка</label><input type="text" value="${esc(m.url)}" oninput="S.mirrors[${i}].url=this.value" placeholder="https://...">`;
+    c.appendChild(d);
+  });
+}
+function buildBackups(){
+  const c=document.getElementById('a-backups');c.innerHTML='';
+  S.backups.forEach((b,i)=>{
+    const d=document.createElement('div');d.className='entry';
+    d.innerHTML=`<button class="rm-btn" onclick="rmBackup(${i})">✕</button>
+      <label>Название канала</label><input type="text" value="${esc(b.name)}" oninput="S.backups[${i}].name=this.value" placeholder="LEOS PROJECT NEWS 2">
+      <label>Ссылка</label><input type="text" value="${esc(b.url)}" oninput="S.backups[${i}].url=this.value" placeholder="https://t.me/+...">`;
+    c.appendChild(d);
+  });
+}
+function addMirror(){S.mirrors.push({label:'',url:''});buildMirrors()}
+function rmMirror(i){S.mirrors.splice(i,1);buildMirrors()}
+function addBackup(){S.backups.push({name:'',url:''});buildBackups()}
+function rmBackup(i){S.backups.splice(i,1);buildBackups()}
+
+function saveAll(){
+  S.title=document.getElementById('a-title').value;
+  S.subtitle=document.getElementById('a-subtitle').value;
+  S.tgName=document.getElementById('a-tg-name').value;
+  S.tgUrl=document.getElementById('a-tg-url').value;
+  S.botName=document.getElementById('a-bot-name').value;
+  S.botUrl=document.getElementById('a-bot-url').value;
+  S.info=document.getElementById('a-info').value;
+  sbSet(S).then(ok=>{
+    const t=document.getElementById('saved-toast');
+    if(ok){ t.textContent='✓ Сохранено в базу данных'; t.style.color=''; }
+    else { t.textContent='⚠ Ошибка сохранения! Проверь Supabase'; t.style.color='#f87171'; }
+    t.classList.add('show');setTimeout(()=>{t.classList.remove('show');t.style.color='';},2500);
+  });
+}
+
+window.addEventListener('hashchange',route);
+initData();
+</script>
+</body>
+</html>
